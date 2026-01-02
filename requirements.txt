@@ -1,0 +1,22 @@
+--index-url https://pypi.org/simple
+--extra-index-url https://download.pytorch.org/whl/cu118
+--find-links https://data.dgl.ai/wheels/cu118/repo.html
+
+torch==2.7.1+cu118
+torchvision==0.22.1+cu118
+torchaudio==2.7.1+cu118
+
+dgl==1.1.2+cu118
+dgllife==0.3.2
+
+numpy==1.26.3
+pandas==2.3.2
+matplotlib==3.9.4
+importlib-metadata==8.7.0
+yacs>=0.1.8
+
+scipy==1.13.1
+scikit-learn==1.6.1
+tqdm
+prettytable
+

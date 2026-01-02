@@ -1,0 +1,17 @@
+SOLVER:
+  BATCH_SIZE: 64
+  MAX_EPOCH: 100
+  LR: 5e-5
+  SEED: 42
+
+DECODER:
+  BINARY: 1
+
+TRAIN:
+  REG_NORMALIZE: True
+  REG_LOSS: "MSE"
+
+
+
+
+

@@ -1,0 +1,119 @@
+SymfuseX(
+  (drug_extractor): DrugGIN(
+    (init_transform): Linear(in_features=75, out_features=128, bias=False)
+    (gin_layers): ModuleList(
+      (0-4): 5 x GINConv(
+        (apply_func): Sequential(
+          (0): Linear(in_features=128, out_features=128, bias=True)
+          (1): ReLU()
+          (2): Linear(in_features=128, out_features=128, bias=True)
+        )
+      )
+    )
+    (batch_norms): ModuleList(
+      (0-4): 5 x BatchNorm1d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    )
+    (jk_lin): Linear(in_features=640, out_features=128, bias=True)
+  )
+  (protein_extractor): ProteinRS(
+    (embedding): Embedding(26, 128, padding_idx=0)
+    (relu): ReLU()
+    (dropout): Dropout(p=0.05, inplace=False)
+    (conv1_1): Conv1d(128, 128, kernel_size=(3,), stride=(1,), padding=(1,))
+    (bn1_1): BatchNorm1d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (conv1_2): Conv1d(128, 128, kernel_size=(3,), stride=(1,), padding=(1,))
+    (bn1_2): BatchNorm1d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (conv1_3): Conv1d(128, 128, kernel_size=(3,), stride=(1,), padding=(1,))
+    (bn1_3): BatchNorm1d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (match1): Conv1d(128, 128, kernel_size=(1,), stride=(1,))
+    (conv2_1): Conv1d(128, 128, kernel_size=(6,), stride=(1,), padding=(3,))
+    (bn2_1): BatchNorm1d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (conv2_2): Conv1d(128, 128, kernel_size=(6,), stride=(1,), padding=(3,))
+    (bn2_2): BatchNorm1d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (conv2_3): Conv1d(128, 128, kernel_size=(6,), stride=(1,), padding=(3,))
+    (bn2_3): BatchNorm1d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (match2): Conv1d(128, 128, kernel_size=(1,), stride=(1,))
+  )
+  (mlp_classifier): MLPDecoder(
+    (fc1): Linear(in_features=256, out_features=512, bias=True)
+    (bn1): BatchNorm1d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (fc2): Linear(in_features=512, out_features=512, bias=True)
+    (bn2): BatchNorm1d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (fc3): Linear(in_features=512, out_features=128, bias=True)
+    (bn3): BatchNorm1d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (fc4): Linear(in_features=128, out_features=1, bias=True)
+  )
+  (fuser): SYMBRIA_XFusion(
+    (drop): Dropout(p=0.1, inplace=False)
+    (proj_d): Linear(in_features=128, out_features=256, bias=True)
+    (proj_p): Linear(in_features=128, out_features=256, bias=True)
+    (film_d): Sequential(
+      (0): Linear(in_features=256, out_features=256, bias=True)
+      (1): ReLU()
+      (2): Linear(in_features=256, out_features=512, bias=True)
+    )
+    (film_p): Sequential(
+      (0): Linear(in_features=256, out_features=256, bias=True)
+      (1): ReLU()
+      (2): Linear(in_features=256, out_features=512, bias=True)
+    )
+    (fuse_layers): ModuleList(
+      (0-1): 2 x BilinearVecFuse(
+        (v_net): FCNet(
+          (main): Sequential(
+            (0): Dropout(p=0.1, inplace=False)
+            (1): ParametrizedLinear(
+              in_features=256, out_features=1024, bias=True
+              (parametrizations): ModuleDict(
+                (weight): ParametrizationList(
+                  (0): _WeightNorm()
+                )
+              )
+            )
+            (2): ReLU()
+          )
+        )
+        (q_net): FCNet(
+          (main): Sequential(
+            (0): Dropout(p=0.1, inplace=False)
+            (1): ParametrizedLinear(
+              in_features=256, out_features=1024, bias=True
+              (parametrizations): ModuleDict(
+                (weight): ParametrizationList(
+                  (0): _WeightNorm()
+                )
+              )
+            )
+            (2): ReLU()
+          )
+        )
+        (bn): BatchNorm1d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (pool): AvgPool1d(kernel_size=(4,), stride=(4,), padding=(0,))
+      )
+    )
+    (gate): Sequential(
+      (0): Linear(in_features=1024, out_features=256, bias=True)
+      (1): ReLU()
+      (2): Dropout(p=0.1, inplace=False)
+      (3): Linear(in_features=256, out_features=4, bias=True)
+    )
+    (post_ln): LayerNorm((256,), eps=1e-05, elementwise_affine=True)
+    (post_ffn): Sequential(
+      (0): Linear(in_features=256, out_features=512, bias=True)
+      (1): GELU(approximate='none')
+      (2): Dropout(p=0.1, inplace=False)
+      (3): Linear(in_features=512, out_features=256, bias=True)
+    )
+    (_rule_encoder): RuleFeature(
+      (project): _LinearReLULinear(
+        (net): Sequential(
+          (0): Linear(in_features=1024, out_features=512, bias=True)
+          (1): ReLU(inplace=True)
+          (2): Identity()
+          (3): Linear(in_features=512, out_features=256, bias=True)
+        )
+      )
+      (post_ln): LayerNorm((256,), eps=1e-05, elementwise_affine=True)
+    )
+  )
+)

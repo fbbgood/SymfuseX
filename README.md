@@ -1,8 +1,7 @@
-# SymfuseX
+# SymfuseX: Bridging Predictive Modeling and Generative Design for Target-Specific Drug Discovery
 
 > Multi-task deep learning framework for drug–target interaction / affinity prediction and target-preference molecule generation.
-<img width="366" height="513" alt="image" src="https://github.com/user-attachments/assets/77a1de28-9990-49d9-92a3-737dfdb6e53c" />
-
+<img width="1128" height="1577" alt="image" src="https://github.com/user-attachments/assets/e48e5325-c5db-461a-8a96-9f7c8a2c2598" />
 ---
 
 ## 🔍 Overview

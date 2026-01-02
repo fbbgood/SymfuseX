@@ -101,4 +101,7 @@ python generate.py
 ```
 We also provide pretrained DTI and DTA models, together with 100 example inputs. You can set the **SAMPLE_IDX parameter in generate.py (0–99)** to perform generation for different targets.To facilitate peer review and reduce evaluation time, we release a lightweight version of the generation pipeline. The full version will be made available in a subsequent update, packaged with a more user-friendly web-based UI.
 
-## ✨ Main Features
+### 3️⃣ Molecular generation results
+
+
+## ✨ Acknowledgements

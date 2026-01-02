@@ -1,7 +1,7 @@
-# SymfuseX
+<img width="1128" height="1577" alt="image" src="https://github.com/user-attachments/assets/6b25f618-f64e-47a4-8004-500200227add" /># SymfuseX
 
 > Multi-task deep learning framework for drug–target interaction / affinity prediction and target-preference molecule generation.
-<img width="282" height="395" alt="image" src="https://github.com/user-attachments/assets/b239381c-70e3-49fe-9f81-9f41c02798e4" />
+<img width="366" height="513" alt="image" src="https://github.com/user-attachments/assets/56cd5235-be20-45ca-b32a-3b6a75b12330" />
 
 ---
 

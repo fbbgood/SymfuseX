@@ -1,1 +1,0 @@
-NC(=O)NC(c1csc(C2=NC3=NC=NC3=N2)n1)c1cccs1

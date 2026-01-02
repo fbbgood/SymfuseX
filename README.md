@@ -1,7 +1,7 @@
 # SymfuseX
 
 > Multi-task deep learning framework for drug–target interaction / affinity prediction and target-preference molecule generation.
-<img width="282" height="395" alt="image" src="https://github.com/user-attachments/assets/b239381c-70e3-49fe-9f81-9f41c02798e4" />
+<img width="366" height="513" alt="image" src="https://github.com/user-attachments/assets/77a1de28-9990-49d9-92a3-737dfdb6e53c" />
 
 ---
 

@@ -69,7 +69,7 @@ $ cd SymfuseX
 ## 🚀 Run SymfuseX to Reproduce Results
 Regardless of the task type, training can be launched with a single command.
 
-1️⃣ Train DTI classification
+## 1️⃣ Train DTI classification
 
 **Set MAX_EPOCH to 100 and BATCH_SIZE to 64 in SymfuseX.yaml**, then run:
 ```bash
@@ -81,7 +81,7 @@ For example, to run the human dataset under a random split:
 python main.py --cfg "configs/SymfuseX.yaml" --task "DTI" --split "random" --dataset "human"
 ```
 
-2️⃣ Train DTA regression
+## 2️⃣ Train DTA regression
 
 **Set MAX_EPOCH to 1000 and BATCH_SIZE to 256 in SymfuseX.yaml**, then run:
 ```bash
@@ -93,7 +93,7 @@ For example, to run the kiba dataset under a random split:
 python main.py --cfg "configs/SymfuseX.yaml" --task "DTA" --split "random" --dataset "davis"
 ```
 
-3️⃣ Molecular generation
+## 3️⃣ Molecular generation
 
 After completing the DTI and DTA tasks, a **.pth checkpoint will be produced for each**. Update the paths to these two checkpoints at the beginning of generate.py to load the trained models. Then, provide the input in /datasets/Generate-sample.csv (typically a known active drug–target pair) and run the following command to start the target-specific molecule generation pipeline:
 ```bash

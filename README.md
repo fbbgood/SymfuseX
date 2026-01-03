@@ -104,7 +104,7 @@ We also provide pretrained DTI and DTA models, together with 100 example inputs.
 
 **Additional de novo molecules generated for different targets are provided below. If anyone requires further data, please feel free to contact us at (booming.819@gmail.com).
 <p align="center">
-<img width="552" height="772" alt="image" src="https://github.com/user-attachments/assets/286f2d6f-6fb8-426d-83f5-ea7c49efa4bb" />
+<img width="560" height="985" alt="image" src="https://github.com/user-attachments/assets/3765e633-e315-434d-98e6-16b28514449c" />
 </p>
 
 ## ✨ Acknowledgements

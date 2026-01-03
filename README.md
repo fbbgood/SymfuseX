@@ -63,9 +63,9 @@ conda install -y -c conda-forge rdkit=2024.09.5
 pip install -r requirements.txt
 ```
 ### 4) clone the source code of SymfuseX
-$ git clone https://github.com/fbbgood/SymfuseX.git
+ git clone https://github.com/fbbgood/SymfuseX.git
 
-$ cd SymfuseX
+ cd SymfuseX
 
 ## 🚀 Run SymfuseX to Reproduce Results
 Regardless of the task type, training can be launched with a single command.

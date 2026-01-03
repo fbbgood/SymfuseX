@@ -1,8 +1,9 @@
 # SymfuseX: Bridging Predictive Modeling and Generative Design for Target-Specific Drug Discovery
 
 > Multi-task deep learning framework for drug–target interaction / affinity prediction and target-preference molecule generation.
+<p align="center">
 <img width="552" height="772" alt="image" src="https://github.com/user-attachments/assets/e48e5325-c5db-461a-8a96-9f7c8a2c2598" />
-
+</p>
 
 ## 🔍 Overview
 
@@ -102,6 +103,8 @@ python generate.py
 We also provide pretrained DTI and DTA models, together with 100 example inputs. You can set the **SAMPLE_IDX parameter in generate.py (0–99)** to perform generation for different targets.To facilitate peer review and reduce evaluation time, we release a lightweight version of the generation pipeline. The full version will be made available in a subsequent update, packaged with a more user-friendly web-based UI.
 
 **Additional de novo molecules generated for different targets are provided below. If anyone requires further data, please feel free to contact us at (booming.819@gmail.com).
-<img width="1121" height="1969" alt="image" src="https://github.com/user-attachments/assets/286f2d6f-6fb8-426d-83f5-ea7c49efa4bb" />
+<p align="center">
+<img width="552" height="772" alt="image" src="https://github.com/user-attachments/assets/286f2d6f-6fb8-426d-83f5-ea7c49efa4bb" />
+</p>
 
 ## ✨ Acknowledgements

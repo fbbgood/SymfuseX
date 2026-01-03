@@ -108,7 +108,8 @@ We also provide pretrained DTI and DTA models, together with 100 example inputs.
 </p>
 
 ## ✨✨ Acknowledgements
-We thank the following studies for inspiring this work.❤️❤️❤️
+**We thank the following studies for inspiring this work.❤️❤️❤️**
+
 [1] Bai P, Miljković F, John B, et al. Interpretable bilinear attention network with domain adaptation improves drug–target prediction[J]. Nature Machine Intelligence, 2023, 5(2): 126-136.
 
 [2] Perez E, Strub F, De Vries H, et al. Film: Visual reasoning with a general conditioning layer[C]//Proceedings of the AAAI conference on artificial intelligence. 2018, 32(1).

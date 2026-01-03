@@ -102,7 +102,7 @@ python generate.py
 ```
 We also provide pretrained DTI and DTA models, together with 100 example inputs. You can set the **SAMPLE_IDX parameter in generate.py (0–99)** to perform generation for different targets.To facilitate peer review and reduce evaluation time, we release a lightweight version of the generation pipeline. The full version will be made available in a subsequent update, packaged with a more user-friendly web-based UI.
 
-**Additional de novo molecules generated for different targets are provided below. If anyone requires further data, please feel free to contact us at (booming.819@gmail.com).**
+**Additional de novo molecules generated for different targets(Target information can be found in the PDB database: https://www.rcsb.org/) are provided below. If anyone requires further data, please feel free to contact us at (booming.819@gmail.com).**
 <p align="center">
 <img width="560" height="985" alt="image" src="https://github.com/user-attachments/assets/3765e633-e315-434d-98e6-16b28514449c" />
 </p>

@@ -19,7 +19,7 @@ The core of SymfuseX is a **Symbiotic Fusion Mechanism**:
 
 - A **symbiosis module** performs **dimension-wise FiLM-style modulation** between drug and protein representations, allowing both sides to co-adapt to each other’s binding preferences.
 - A **fusion module** aggregates **raw** and **modulated** features along **multiple interaction paths** with a gating network, emphasizing paths that contribute most to binding probability and affinity.
-- The resulting **target-conditioned drug descriptor** `Mod_d` is reused as a **latent guidance vector** to drive fragment-based molecular generation around the target’s local chemical space.
+- The resulting **target-conditioned drug descriptor** `Md` is reused as a **latent guidance vector** to drive fragment-based molecular generation around the target’s local chemical space.
 
 ## ⚙️ Installation & Requirements
 

@@ -84,7 +84,7 @@ python main.py --cfg "configs/SymfuseX.yaml" --task "DTI" --split "random" --dat
 
 ### 2️⃣ Train DTA regression
 
-**Set MAX_EPOCH to 1000, BATCH_SIZE to 256 and LR to 1e-4 in SymfuseX.yaml**, then run:
+**Set MAX_EPOCH to 1000, BATCH_SIZE to 256 and LR to 5e-4 in SymfuseX.yaml**, then run:
 ```bash
 python main.py --cfg "configs/SymfuseX.yaml" --task "DTA" --split "${split}" --dataset "${dataset}"
 ```

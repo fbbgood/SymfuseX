@@ -72,7 +72,7 @@ Regardless of the task type, training can be launched with a single command.
 
 ### 1️⃣ Train DTI classification
 
-**Set MAX_EPOCH to 100 and BATCH_SIZE to 64 in SymfuseX.yaml**, then run:
+**Set MAX_EPOCH to 100, BATCH_SIZE to 64 and LR to 5e-5 in SymfuseX.yaml**, then run:
 ```bash
 python main.py --cfg "configs/SymfuseX.yaml" --task "DTI" --split "${split}" --dataset "${dataset}"
 ```
@@ -84,7 +84,7 @@ python main.py --cfg "configs/SymfuseX.yaml" --task "DTI" --split "random" --dat
 
 ### 2️⃣ Train DTA regression
 
-**Set MAX_EPOCH to 1000 and BATCH_SIZE to 256 in SymfuseX.yaml**, then run:
+**Set MAX_EPOCH to 1000, BATCH_SIZE to 256 and LR to 1e-4 in SymfuseX.yaml**, then run:
 ```bash
 python main.py --cfg "configs/SymfuseX.yaml" --task "DTA" --split "${split}" --dataset "${dataset}"
 ```

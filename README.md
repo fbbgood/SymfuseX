@@ -89,7 +89,7 @@ python main.py --cfg "configs/SymfuseX.yaml" --task "DTI" --split "random" --dat
 python main.py --cfg "configs/SymfuseX.yaml" --task "DTA" --split "${split}" --dataset "${dataset}"
 ```
 ${split} can be random or cold; ${dataset} can be davis or kiba.
-For example, to run the kiba dataset under a random split:
+For example, to run the davis dataset under a random split:
 ```bash
 python main.py --cfg "configs/SymfuseX.yaml" --task "DTA" --split "random" --dataset "davis"
 ```

@@ -50,8 +50,8 @@ importlib-metadata: 8.7.0
 We recommend creating a fresh conda environment before installing the dependencies.
 ### 1) Create and activate a new conda environment (Python 3.9)
 ```bash
-conda create -n symfusex python=3.9.24 -y
-conda activate symfusex
+conda create -n symfuseX python=3.9.24 -y
+conda activate symfuseX
 python -m pip install -U pip
 ```
 ### 2) Install RDKit (recommended via conda-forge)

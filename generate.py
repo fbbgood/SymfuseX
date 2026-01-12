@@ -30,7 +30,7 @@ os.makedirs(BASE_OUT, exist_ok=True)
 CKPT_PATH = "/home/fbm/SymfuseX/result/KI-DTA.pth"
 CFG_YAML  = "/home/fbm/SymfuseX/configs/SymfuseX.yaml"
 BASE_CSV  = "/home/fbm/SymfuseX/datasets/Generate-sample.csv"
-SAMPLE_IDX: int = 99
+SAMPLE_IDX: int = 0
 REGR_CKPT_PATH = "/home/fbm/SymfuseX/result/MIX-DTI.pth"
 REGR_TH = 0.835
 

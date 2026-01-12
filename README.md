@@ -114,7 +114,7 @@ We also provide pretrained DTI and DTA models, together with 10 example inputs. 
 
 [1] Bai P, Miljković F, John B, et al. Interpretable bilinear attention network with domain adaptation improves drug–target prediction[J]. Nature Machine Intelligence, 2023, 5(2): 126-136.<br>
 [2] Perez E, Strub F, De Vries H, et al. Film: Visual reasoning with a general conditioning layer[C]//Proceedings of the AAAI conference on artificial intelligence. 2018, 32(1).<br>
-[3] Feng B M, Zhang Y Y, Zheng H Y, et al. Defusedti: Interpretable drug target interaction prediction model with dual-branch encoder and multiview fusion[J]. Future Generation Computer Systems, 2024, 161: 239-247.<br>
+[3] Feng B M, Zhang Y Y, Niu N W J, et al. Defusedti: Interpretable drug target interaction prediction model with dual-branch encoder and multiview fusion[J]. Future Generation Computer Systems, 2024, 161: 239-247.<br>
 [4] Ilse M, Tomczak J, Welling M. Attention-based deep multiple instance learning[C]//International conference on machine learning. PMLR, 2018: 2127-2136.<br>
 
 We sincerely thank the editor and the anonymous reviewers for their professional and constructive comments on this manuscript, and we extend our respectful regards and best wishes❤️.

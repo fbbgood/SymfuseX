@@ -98,11 +98,11 @@ python main.py --cfg "configs/SymfuseX.yaml" --task "DTA" --split "random" --dat
 
 ### 3️⃣ Molecular generation
 
-After completing the DTI and DTA tasks, a **.pth checkpoint will be produced for each**. Update the paths to these two checkpoints at the beginning of generate.py to load the trained models. Then, provide the input in /datasets/Generate-sample.csv (typically a known active drug–target pair) and run the following command to start the target-specific molecule generation pipeline:
+After completing the DTI and DTA tasks, a **.pth checkpoint will be produced for each**. Update the paths to these two checkpoints at the beginning of generate.py to load the trained models. Then, provide the input in /datasets/Generate-samples.csv (typically a known active drug–target pair) and run the following command to start the target-specific molecule generation pipeline:
 ```bash
 python generate.py
 ```
-We also provide pretrained DTI and DTA models, together with 100 example inputs. You can set the **SAMPLE_IDX parameter in generate.py (0–99)** to perform generation for different targets.To facilitate peer review and reduce evaluation time, we release a lightweight version of the generation pipeline. The full version will be made available in a subsequent update, packaged with a more user-friendly web-based UI.
+We also provide pretrained DTI and DTA models, together with 10 example inputs. You can set the **SAMPLE_IDX parameter in generate.py (0–9)** to perform generation for different targets.To facilitate peer review and reduce evaluation time, we release a lightweight version of the generation pipeline. The full version will be made available in a subsequent update, packaged with a more user-friendly web-based UI.
 
 **Additional de novo molecules generated for different targets(Target information can be found in the PDB database: https://www.rcsb.org/) are provided below. If anyone requires further data, please feel free to contact us at (booming.819@gmail.com).**
 <p align="center">

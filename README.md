@@ -77,6 +77,7 @@ Regardless of the task type, training can be launched with a single command.
 python main.py --cfg "configs/SymfuseX.yaml" --task "DTI" --split "${split}" --dataset "${dataset}"
 ```
 ${split} can be random or fold; ${dataset} can be bindingdb, human, or biosnap.
+
 For example, to run the human dataset under a random split:
 ```bash
 python main.py --cfg "configs/SymfuseX.yaml" --task "DTI" --split "random" --dataset "human"
@@ -89,6 +90,7 @@ python main.py --cfg "configs/SymfuseX.yaml" --task "DTI" --split "random" --dat
 python main.py --cfg "configs/SymfuseX.yaml" --task "DTA" --split "${split}" --dataset "${dataset}"
 ```
 ${split} can be random or cold; ${dataset} can be davis or kiba.
+
 For example, to run the davis dataset under a random split:
 ```bash
 python main.py --cfg "configs/SymfuseX.yaml" --task "DTA" --split "random" --dataset "davis"

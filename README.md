@@ -104,7 +104,7 @@ We also provide pretrained DTI and DTA models, together with 100 example inputs.
 
 **Additional de novo molecules generated for different targets(Target information can be found in the PDB database: https://www.rcsb.org/) are provided below. If anyone requires further data, please feel free to contact us at (booming.819@gmail.com).**
 <p align="center">
-<img width="560" height="985" alt="image" src="https://github.com/user-attachments/assets/3765e633-e315-434d-98e6-16b28514449c" />
+<img width="560" height="985" alt="image" src="P22.jpg" />
 </p>
 
 ## ✨✨ Acknowledgements

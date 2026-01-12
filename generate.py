@@ -553,7 +553,7 @@ def screen_smiles_by_DTI(smiles_list: List[str], base_csv: str, sample_idx: int,
     print(f"[DTI] saved to {out_scores_txt}")
 
     kept = [s for s, sc in zip(smiles_list, scores) if sc > th]
-    print(f"[OK] kept {len(kept)}/{len(smiles_list)} with TH>{th}")
+    print(f"[OK] kept {len(kept)} with TH>{th}")
     return kept
 
 # ===================== Classification scoring =====================
@@ -676,7 +676,7 @@ def run_pipeline(ckpt_path=CKPT_PATH,
     print("[Main] Step2: Latent Target-Preference Guided Molecule Generation......")
     smiles = analyze_main(
         Mod_d_paths=[os.path.join(BASE_OUT, "Mod_d.npy")],
-        target_n=100000,
+        target_n=10000,
         summary_txt_path=os.path.join(BASE_OUT, "summary.txt")
     )
     if not smiles:

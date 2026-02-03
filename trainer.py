@@ -13,7 +13,6 @@ from sklearn.metrics import (
 
 from modules import binary_cross_entropy, cross_entropy_logits, entropy_logits
 
-# -------- helpers: yacs CfgNode -> dict（保持与原用法 config.get(...) 兼容） --------
 try:
     from yacs.config import CfgNode
 except Exception:
@@ -21,7 +20,6 @@ except Exception:
 
 def _to_pydict(obj):
     if CfgNode is not None and isinstance(obj, CfgNode):
-        # CfgNode 自身支持 .items()
         return {k: _to_pydict(v) for k, v in obj.items()}
     if isinstance(obj, dict):
         return {k: _to_pydict(v) for k, v in obj.items()}
@@ -44,7 +42,6 @@ def calculate_ci(y_true, y_pred):
 
 
 def calculate_rm2(y_true, y_pred):
-    # 采用经典定义：基于 r2 与 r0^2 的差异
     try:
         r2 = r2_score(y_true, y_pred)
         if np.isnan(r2):
@@ -71,14 +68,7 @@ def calculate_rm2(y_true, y_pred):
 
 
 class Trainer(object):
-    """
-    训练/验证：逐 epoch；根据验证集指标选择最佳。
-    结束后：
-      - DTA 回归：不再评测测试集，直接保存“最佳验证集”结果（MSE/CI/RM2）。
-      - DTI 分类：若有测试集，则在最佳验证权重上评测测试集；否则也用 Val 作为最终结果。
-    """
     def __init__(self, model, optim, device, train_dataloader, val_dataloader, test_dataloader, task="DTI", **config):
-        # 将 yacs.CfgNode 递归转换为普通 dict，后续保持原有 config.get(...) 用法
         cfgd = _to_pydict(config)
 
         self.model = model
@@ -97,12 +87,10 @@ class Trainer(object):
         self.task = str(task).upper()
         self.is_regression = (self.task == "DTA")
 
-        # 训练选项
         train_cfg = cfgd.get("TRAIN", {})
         self.reg_normalize = bool(train_cfg.get("REG_NORMALIZE", True if self.is_regression else False))
         self.reg_loss_name = str(train_cfg.get("REG_LOSS", "MSE" if self.is_regression else "SmoothL1")).upper()
 
-        # 损失/最佳模型跟踪
         if self.is_regression:
             self.criterion = torch.nn.MSELoss() if self.reg_loss_name == "MSE" else torch.nn.SmoothL1Loss()
             self.best_state_dict = None
@@ -111,7 +99,6 @@ class Trainer(object):
             self.best_ci = 0.0
             self.best_rm2 = 0.0
 
-            # 标签归一化统计
             self.reg_mean = None
             self.reg_std = None
             if self.reg_normalize:
@@ -131,24 +118,18 @@ class Trainer(object):
             self.best_epoch = None
             self.best_auroc = 0.0
 
-        # 结果输出
         self.config = cfgd
         self.output_dir = cfgd.get("RESULT", {}).get("OUTPUT_DIR", "./result")
         os.makedirs(self.output_dir, exist_ok=True)
         self.clip_grad_norm = cfgd.get("TRAIN", {}).get("CLIP_GRAD_NORM", None)
 
-        # 仅用于保存"最终结果"的表（DTI: TEST；DTA: VAL）
         self.test_table = PrettyTable(["# Best Epoch", "Split", "Metrics"])
 
-        # ===== 验证集历史指标表（输出到 txt）=====
         if self.is_regression:
-            # DTA：记录 MSE / CI / RM2 / Loss
             self.val_table = PrettyTable(["Epoch", "Val_MSE", "Val_CI", "Val_RM2", "Val_Loss"])
         else:
-            # DTI：记录 AUROC / AUPRC / Loss
             self.val_table = PrettyTable(["Epoch", "Val_AUROC", "Val_AUPRC", "Val_Loss"])
 
-    # 归一化辅助
     def _normalize_label(self, label_tensor):
         if not self.reg_normalize:
             return label_tensor
@@ -159,19 +140,14 @@ class Trainer(object):
             return pred_tensor
         return pred_tensor * self.reg_std + self.reg_mean
 
-    # =========================
-    # 训练主循环（每个 epoch 后在 val 上选优）
-    # =========================
     def train(self):
         for _ in range(self.epochs):
             self.current_epoch += 1
             train_loss = self.train_epoch()
 
-            # 验证集评估（用于选择最佳权重）
             if not self.is_regression:
                 auroc, auprc, val_loss = self.test(dataloader="val")
                 print(f'[Val] Epoch {self.current_epoch}: loss {val_loss:.4f}, AUROC {auroc:.4f}, AUPRC {auprc:.4f}')
-                # 记录到验证历史表
                 self.val_table.add_row([
                     self.current_epoch,
                     f"{auroc:.4f}",
@@ -183,13 +159,11 @@ class Trainer(object):
                     self.best_auroc = auroc
                     self.best_epoch = self.current_epoch
             else:
-                # 回归：test(..., 'val') 返回 (mse, ci, rm2, loss)
                 val_mse, val_ci, val_rm2, val_loss = self.test(dataloader="val")
                 print(
                     f'[Val] Epoch {self.current_epoch}: loss {val_loss:.4f}, '
                     f'MSE {val_mse:.4f}, CI {val_ci:.4f}, RM2 {val_rm2:.4f}'
                 )
-                # 写入验证历史表
                 self.val_table.add_row([
                     self.current_epoch,
                     f"{val_mse:.4f}",
@@ -197,7 +171,6 @@ class Trainer(object):
                     f"{val_rm2:.4f}",
                     f"{val_loss:.4f}",
                 ])
-                # 以 MSE 最小作为最佳
                 if val_mse <= getattr(self, "best_mse", float('inf')):
                     self.best_state_dict = {k: v.cpu().clone() for k, v in self.model.state_dict().items()}
                     self.best_mse = val_mse
@@ -205,14 +178,10 @@ class Trainer(object):
                     self.best_rm2 = val_rm2
                     self.best_epoch = self.current_epoch
 
-        # ===== 训练结束后，把验证集历史写入 txt =====
         os.makedirs(self.output_dir, exist_ok=True)
         with open(os.path.join(self.output_dir, "val_markdowntable.txt"), "w") as fp:
             fp.write(self.val_table.get_string())
 
-        # =========================
-        # DTA 回归：不再使用测试集，直接保存“最佳验证集”结果
-        # =========================
         if self.is_regression:
             metrics = {
                 "Split": "VAL",
@@ -229,16 +198,11 @@ class Trainer(object):
             self.save_result(metrics)
             return metrics
 
-        # =========================
-        # DTI 分类：若提供测试集，则在最佳验证 epoch 权重上评测测试集
-        # 若未提供测试集，退化为以 Val 作为最终结果（不报错）
-        # =========================
         if getattr(self, "best_state_dict", None) is not None:
             self._temp_state = {k: v.cpu().clone() for k, v in self.model.state_dict().items()}
             self.model.load_state_dict(self.best_state_dict)
 
         if self.test_dataloader is None:
-            # 无测试集，直接用 Val 作为最终结果
             auroc, auprc, val_loss = self.test(dataloader="val")
             brief = f"AUROC={auroc:.4f}, AUPRC={auprc:.4f}, LOSS={val_loss:.4f}"
             print(f'[Best @ epoch {self.best_epoch}] VAL(as final): {brief}')
@@ -257,7 +221,6 @@ class Trainer(object):
                     pass
             return metrics
 
-        # 正常测试评估
         auroc, auprc, f1, sensitivity, specificity, accuracy, thred_optim, test_loss, precision_val = self.test(
             dataloader="test")
         metrics = {
@@ -273,10 +236,8 @@ class Trainer(object):
         print(f'[Best @ epoch {self.best_epoch}] TEST: {brief}')
         self.test_table.add_row([f"epoch {self.best_epoch}", "TEST", brief])
 
-        # 保存测试集结果（分类保持不变）
         self.save_result(metrics)
 
-        # 还原权重（可选）
         if hasattr(self, "_temp_state"):
             try:
                 self.model.load_state_dict(self._temp_state); del self._temp_state
@@ -287,19 +248,14 @@ class Trainer(object):
 
     def save_result(self, test_metrics):
         os.makedirs(self.output_dir, exist_ok=True)
-        # 保存最佳模型（按配置）；不再保存 model_epoch_*.pth
         if self.config.get("RESULT", {}).get("SAVE_MODEL", False):
             if getattr(self, "best_state_dict", None) is not None and getattr(self, "best_epoch", None) is not None:
                 best_path = os.path.join(self.output_dir, f"best_model_epoch_{self.best_epoch}.pth")
                 torch.save(self.best_state_dict, best_path)
 
-        # 保存结果表
         with open(os.path.join(self.output_dir, "test_markdowntable.txt"), 'w') as fp:
             fp.write(self.test_table.get_string())
 
-    # =========================
-    # 单个 epoch 的训练
-    # =========================
     def train_epoch(self):
         self.model.train()
         total_loss = 0.0
@@ -308,7 +264,6 @@ class Trainer(object):
         for batch in pbar:
             self.step += 1
             real_batches += 1
-            # 兼容两种批格式
             try:
                 v_d, v_p, labels, smiles_list = batch
             except Exception:
@@ -352,9 +307,6 @@ class Trainer(object):
         print(f'[Train] Epoch {self.current_epoch}: loss {avg_loss:.4f}')
         return avg_loss
 
-    # =========================
-    # 评估（支持 val / test）
-    # =========================
     def test(self, dataloader="test"):
         y_label, y_score = [], []
         test_loss = 0.0
@@ -363,7 +315,6 @@ class Trainer(object):
         if dataloader == "test":
             data_loader = self.test_dataloader
             if data_loader is None:
-                # 防御：当上层误传 "test" 但无测试集时，回退到 val
                 data_loader = self.val_dataloader
         elif dataloader == "val":
             data_loader = self.val_dataloader
@@ -420,7 +371,6 @@ class Trainer(object):
         test_loss = test_loss / max(real_batches, 1)
         if not self.is_regression:
             if len(y_label) == 0:
-                # val 仍返回 (auroc, auprc, loss)
                 return (0.0, 0.0, test_loss) if dataloader == "val" \
                     else (0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.5, test_loss, 0.0)
 
@@ -430,7 +380,6 @@ class Trainer(object):
             if dataloader == "val":
                 return auroc, auprc, test_loss
             else:
-                # test：阈值相关指标
                 precisions, recalls, thresholds = precision_recall_curve(y_label, y_score)
                 if thresholds is None or thresholds.size == 0:
                     thred_optim = 0.5
@@ -455,13 +404,11 @@ class Trainer(object):
                 f1_val_final = f1_score(y_label, y_pred_s) if len(y_label) > 0 else 0.0
                 return auroc, auprc, f1_val_final, sensitivity, specificity, accuracy, thred_optim, test_loss, precision_score_val
         else:
-            # 回归指标计算（y_label 与 y_score 均为原标度）
             mse = mean_squared_error(y_label, y_score) if len(y_label) > 0 else 0.0
             ci = calculate_ci(y_label, y_score) if len(y_label) > 0 else 0.0
             rm2 = calculate_rm2(y_label, y_score) if len(y_label) > 0 else 0.0
             return mse, ci, rm2, test_loss
 
-    # 安全指标
     def _safe_auc(self, y_true, y_score):
         try:
             return float(roc_auc_score(y_true, y_score))

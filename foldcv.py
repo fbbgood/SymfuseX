@@ -1,5 +1,5 @@
 # foldcv.py
-# Minimal, sidecar K-fold CV runner. Saves ONLY kfold_results as TXT (no CSV/summary).
+
 import os
 from copy import deepcopy
 from typing import Dict, List

@@ -1,8 +1,6 @@
 # symbiosis.py
 # -*- coding: utf-8 -*-
-"""
-SYMBRIA_XFusion (Vector-Only, BAN/MFB-style) + Rule Vector "Pre-injection"
-"""
+
 from typing import Dict, List, Optional
 import torch
 import torch.nn as nn

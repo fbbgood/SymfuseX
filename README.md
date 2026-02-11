@@ -117,4 +117,4 @@ We also provide pretrained DTI and DTA models, together with 10 example inputs. 
 [3] Feng B M, Zhang Y Y, Niu N W J, et al. Defusedti: Interpretable drug target interaction prediction model with dual-branch encoder and multiview fusion[J]. Future Generation Computer Systems, 2024, 161: 239-247.<br>
 [4] Ilse M, Tomczak J, Welling M. Attention-based deep multiple instance learning[C]//International conference on machine learning. PMLR, 2018: 2127-2136.<br>
 
-We sincerely thank the editor and the anonymous reviewers for their professional and constructive comments on this manuscript, and we extend our respectful regards and best wishes❤️.
+We sincerely thank the Editor and the anonymous reviewers for the time and effort they have devoted to improving the quality of this manuscript. We express our highest respect and best wishes in appreciation of their valuable contributions.❤️

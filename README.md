@@ -2,7 +2,7 @@
 
 > Multi-task deep learning framework for drug–target interaction / affinity prediction and target-preference molecule generation.
 <p align="center">
-<img width="552" height="772" alt="image" src="P.jpg" />
+<img width="552" height="772" alt="image" src="P11.jpg" />
 </p>
 
 ## 🔍 Overview

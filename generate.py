@@ -133,7 +133,7 @@ def _reconstruct_delta(fuser, v_d_feat, v_p_feat, smiles_list=None, tau: float =
         z_pre = (1.0 - float(tau)) * z_raw + float(tau) * rule_d.detach()
     else:
         z_pre = z_raw
-    gd = fuser.film_d(z_p)
+    gd = fuser.coem_d(z_p)
     gamma, beta = torch.chunk(gd, 2, dim=-1)
     return (gamma - 1.0) * z_pre + beta
 
@@ -185,8 +185,8 @@ def _warmup_fuser_on_single_sample(model, bg, p_idx, label_tensor, orig_h,
 
         last_attn = attn
 
-        gstd = float(attn["film_d_gamma"].detach().std().item())
-        bstd = float(attn["film_d_beta"].detach().std().item())
+        gstd = float(attn["coem_d_gamma"].detach().std().item())
+        bstd = float(attn["coem_d_beta"].detach().std().item())
         gw = attn["gate_weights"].detach().mean(dim=0)
         cur_mdrp = float(gw[2].item())
         if (best_mdrp is None) or (cur_mdrp > best_mdrp):
@@ -199,7 +199,7 @@ def _warmup_fuser_on_single_sample(model, bg, p_idx, label_tensor, orig_h,
             best_bstd = bstd
 
         if (print_every is not None) and (step % print_every == 0 or step == steps):
-            print(f"[FiLM] step={step}/{steps} loss={float(loss):.6f} | gamma_std={gstd:.4f} beta_std={bstd:.4f}")
+            print(f"[CoEM] step={step}/{steps} loss={float(loss):.6f} | gamma_std={gstd:.4f} beta_std={bstd:.4f}")
             _print_gate(attn["gate_weights"])
 
     model.eval()
@@ -213,8 +213,8 @@ def _warmup_fuser_on_single_sample(model, bg, p_idx, label_tensor, orig_h,
     elif last_attn is not None:
         gw = last_attn["gate_weights"].detach().mean(dim=0)
         best_mdrp = float(gw[2].item())
-        best_gstd = float(last_attn["film_d_gamma"].detach().std().item())
-        best_bstd = float(last_attn["film_d_beta"].detach().std().item())
+        best_gstd = float(last_attn["coem_d_gamma"].detach().std().item())
+        best_bstd = float(last_attn["coem_d_beta"].detach().std().item())
         print(f"[Select] use step={steps} with Md_Rp={best_mdrp:.6f} | gamma_std={best_gstd:.4f} beta_std={best_bstd:.4f}")
 
     return Mod_d_last

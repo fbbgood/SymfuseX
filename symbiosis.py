@@ -80,18 +80,18 @@ class SYMBRIA_XFusion(nn.Module):
         self.proj_d = nn.Linear(drug_feat_dim, self.H)
         self.proj_p = nn.Linear(target_feat_dim, self.H)
 
-        self.film_d = nn.Sequential(
+        self.coem_d = nn.Sequential(
             nn.Linear(self.H, self.H),
             nn.ReLU(),
             nn.Linear(self.H, 2 * self.H)
         )
-        self.film_p = nn.Sequential(
+        self.coem_p = nn.Sequential(
             nn.Linear(self.H, self.H),
             nn.ReLU(),
             nn.Linear(self.H, 2 * self.H)
         )
-        _zero_last_linear(self.film_d[-1:])
-        _zero_last_linear(self.film_p[-1:])
+        _zero_last_linear(self.coem_d[-1:])
+        _zero_last_linear(self.coem_p[-1:])
 
         self.fuse_layers = nn.ModuleList([
             BilinearVecFuse(self.H, self.H, self.H, k=self.k, dropout=dropout, act='ReLU')
@@ -128,8 +128,8 @@ class SYMBRIA_XFusion(nn.Module):
         return x.mean(dim=1)
 
     def _make_fake_vectors(self, z_d: torch.Tensor, z_p: torch.Tensor):
-        gd = self.film_d(z_p)
-        gp = self.film_p(z_d)
+        gd = self.coem_d(z_p)
+        gp = self.coem_p(z_d)
         gamma_d, beta_d = torch.chunk(gd, 2, dim=-1)
         gamma_p, beta_p = torch.chunk(gp, 2, dim=-1)
         Mod_d = gamma_d * z_d + beta_d
@@ -196,8 +196,8 @@ class SYMBRIA_XFusion(nn.Module):
             last_pairs = torch.stack([Rd_Rp, Rd_Mp, Md_Rp, Md_Mp], dim=1)
 
         self._last_attn = {
-            "film_d_gamma": g_d, "film_d_beta": b_d,
-            "film_p_gamma": g_p, "film_p_beta": b_p,
+            "coem_d_gamma": g_d, "coem_d_beta": b_d,
+            "coem_p_gamma": g_p, "coem_p_beta": b_p,
             "gate_weights": gate_w,
             "Rd_Rp": last_pairs[:, 0, :],
             "Rd_Mp": last_pairs[:, 1, :],
